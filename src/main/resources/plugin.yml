@@ -1,0 +1,10 @@
+name: SuperServeurPlugin
+main: com.samy.superserveur.SuperServeurPlugin
+version: 1.0
+api-version: 1.20
+description: Mon premier plugin Minecraft Spigot.
+author: Samy
+
+commands:
+  friends:
+    description: Gère les amis (ajout, acceptation, liste, suppression)
