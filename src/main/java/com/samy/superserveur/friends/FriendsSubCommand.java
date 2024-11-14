@@ -5,7 +5,8 @@ public enum FriendsSubCommand {
     LIST,
     DELETE,
     HELP,
-    ACCEPT;
+    ACCEPT,
+    JOIN;
 
     public static boolean contains(String test) {
         for (FriendsSubCommand subCommand : FriendsSubCommand.values()) {

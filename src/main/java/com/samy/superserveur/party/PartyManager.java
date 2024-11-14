@@ -34,7 +34,6 @@ public class PartyManager {
     }
 
     public void addPlayerToParty(Player sender, Player player){
-        // ajt le joueur que si il est le leader d'une party
         Party party = getParty(sender);
         if(party != null){
             party.addMember(player);
@@ -71,5 +70,17 @@ public class PartyManager {
             return names;
         }
         return new ArrayList<>();
+    }
+
+    public void listParty(Player player){
+        List<String> partyMembers = getPartyMembers(player);
+        if(partyMembers.isEmpty()){
+            player.sendMessage("Vous n'êtes pas dans un groupe.");
+        } else {
+            player.sendMessage("Membres du groupe:");
+            for(String member : partyMembers){
+                player.sendMessage("- " + member);
+            }
+        }
     }
 }

@@ -1,9 +1,13 @@
 package com.samy.superserveur.friends;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FriendsMessageUtils {
 
@@ -23,14 +27,28 @@ public class FriendsMessageUtils {
         sender.sendMessage(friendHeader + formatName(friend) + " s'est " + formattedMessage + " !");
     }
 
-    public static void friendRequestAccepted(CommandSender sender, String friend) {
-        sender.sendMessage(friendHeader + formatName(friend) + " est maintenant votre ami !");
+    public static void friendRequestAccepted(CommandSender sender, Player friend) {
+        sender.sendMessage(friendHeader + formatName(friend.getName()) + " est maintenant votre ami !");
+        friend.sendMessage(friendHeader + formatName(sender.getName()) + " est maintenant votre ami !");
     }
 
-    public static void friendListHandler(CommandSender sender, List<String> friends) {
+    public static void friendRequestSent(CommandSender sender, Player friend){
+        sender.sendMessage(friendHeader + "Une requête d'ami a été envoyé à " + formatName(friend.getName()));
+        friend.sendMessage(friendHeader + formatName(sender.getName()) + " vous a envoyé une demande d'ami, pour l'accepter: /friends accept " + sender.getName());
+    }
+
+    public static void friendRequestNotExist(CommandSender sender, String target) {
+        sender.sendMessage(friendHeader + ChatColor.RED + "Vous n'avez pas de demande d'ami de " + ChatColor.RESET + formatName(target));
+    }
+
+    public static void friendListHandler(CommandSender sender, List<String> onlineFriends, List<String> offlineFriends) {
+
         sender.sendMessage(friendHeader + "Vos amis:");
-        for (String friend : friends) {
-            sender.sendMessage("- " + formatName(friend));
+        for (String friend : onlineFriends) {
+            sender.sendMessage(ChatColor.GREEN + " ● " + formatName(friend));
+        }
+        for (String friend : offlineFriends) {
+            sender.sendMessage(ChatColor.RED + " ● " + formatName(friend));
         }
         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
     }

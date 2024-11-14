@@ -1,0 +1,10 @@
+ranks:
+  default:
+    name: "Joueur"
+    permissions:
+      - "FRIENDS"
+      - "MESSAGE"
+  admin:
+    name: "Administrateur"
+    permissions:
+      - "ALL"

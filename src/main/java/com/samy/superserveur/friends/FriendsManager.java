@@ -14,16 +14,17 @@ public class FriendsManager {
 
     public void sendRequest(Player sender, Player target) {
         requests.computeIfAbsent(target.getUniqueId(), k -> new ArrayList<>()).add(sender.getUniqueId());
+        FriendsMessageUtils.friendRequestSent(sender, target);
     }
 
-    public boolean acceptRequest(Player player, Player requester){
+    public void acceptRequest(Player player, Player requester){
         List<UUID> requests = this.requests.getOrDefault(player.getUniqueId(), new ArrayList<>());
         if (requests.contains(requester.getUniqueId())) {
+            FriendsMessageUtils.friendRequestAccepted(player, requester);
             addFriend(player, requester);
             requests.remove(requester.getUniqueId());
-            return true;
         } else {
-            return false;
+            FriendsMessageUtils.friendRequestNotExist(player, requester.getName());
         }
     }
 
@@ -56,6 +57,30 @@ public class FriendsManager {
 
     public List<UUID> getFriends(Player player) {
         return friends.getOrDefault(player.getUniqueId(), new ArrayList<>());
+    }
+
+    public List<String> getOnlineFriends(Player player) {
+        List<UUID> friends = getFriends(player);
+        List<String> names = new ArrayList<>();
+        for (UUID friend : friends) {
+            Player p = Bukkit.getPlayer(friend);
+            if (p != null && p.isOnline()) {
+                names.add(p.getName());
+            }
+        }
+        return names;
+    }
+
+    public List<String> getOfflineFriends(Player player){
+        List<UUID> friends = getFriends(player);
+        List<String> names = new ArrayList<>();
+        for(UUID friend : friends){
+            Player p = Bukkit.getPlayer(friend);
+            if(p == null || !p.isOnline()){
+                names.add(friend.toString());
+            }
+        }
+        return names;
     }
 
     public List<String> getRequests(Player player) {

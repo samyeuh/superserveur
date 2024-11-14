@@ -23,9 +23,9 @@ public class PartyTabCompleter implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions = Arrays.asList("add", "remove", "list", "help");
-        } else if (args.length == 2 && (args[1].equals("add")) || (args[1].equals("remove"))) {
-            if (args[1].equals("remove")){
+            completions = Arrays.asList("add", "remove", "list", "help", "accept");
+        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove"))) {
+            if (args[0].equals("remove")){
                 Player p = (Player) sender;
                 completions = partyManager.getPartyMembers(p);
             } else {

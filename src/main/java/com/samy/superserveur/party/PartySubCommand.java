@@ -3,6 +3,7 @@ package com.samy.superserveur.party;
 public enum PartySubCommand {
 
     ADD,
+    ACCEPT,
     LIST,
     REMOVE,
     HELP;

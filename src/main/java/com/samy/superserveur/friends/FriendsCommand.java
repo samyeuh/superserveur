@@ -46,24 +46,18 @@ public class FriendsCommand implements CommandExecutor {
             case ACCEPT:
                 if (args.length == 2) {
                     Player requester = Bukkit.getPlayer(args[1]);
-                    if (requester != null && friendsManager.acceptRequest(player, requester)) {
-                        FriendsMessageUtils.friendRequestAccepted(player, requester.getName());
-                    } else {
-                        player.sendMessage("Impossible d'accepter la demande d'ami.");
+                    if (requester == null) {
+                        FriendsMessageUtils.friendRequestNotExist(player, args[1]);
+                        break;
                     }
+                    friendsManager.acceptRequest(player, requester);
                 } else {
                     friendsManager.acceptMostRecentRequest(player);
                 }
                 break;
 
             case LIST:
-                player.sendMessage("Vos amis:");
-                for (UUID friendUUID : friendsManager.getFriends(player)) {
-                    Player friend = Bukkit.getPlayer(friendUUID);
-                    if (friend != null) {
-                        player.sendMessage("- " + friend.getName());
-                    }
-                }
+                FriendsMessageUtils.friendListHandler(player, friendsManager.getOnlineFriends(player), friendsManager.getOfflineFriends(player));
                 break;
 
             case DELETE:

@@ -23,10 +23,9 @@ public class FriendsTabCompleter implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-
             completions = Arrays.asList("add", "delete", "list", "help", "accept");
-        } else if (args.length == 2 && (args[1].equals("add")) || (args[1].equals("remove")) || (args[1].equals("accept"))) {
-            if (args[1].equals("accept")) {
+        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove")) || (args[0].equals("accept"))) {
+            if (args[0].equals("accept")) {
                 Player player = (Player) sender;
                 completions = friendsManager.getRequests(player);
             } else {
