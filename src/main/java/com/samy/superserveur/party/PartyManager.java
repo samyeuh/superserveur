@@ -1,9 +1,11 @@
 package com.samy.superserveur.party;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PartyManager {
 
@@ -58,4 +60,16 @@ public class PartyManager {
     }
 
 
+    public List<String> getPartyMembers(Player sender) {
+        Party party = getParty(sender);
+        List<String> names = new ArrayList<>();
+        if(party != null){
+            for (UUID player : party.getMembers()){
+                Player p = Bukkit.getPlayer(player);
+                names.add(p.getName());
+            }
+            return names;
+        }
+        return new ArrayList<>();
+    }
 }

@@ -1,5 +1,6 @@
 package com.samy.superserveur.friends;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -34,9 +35,6 @@ public class FriendsManager {
         Player requester = player.getServer().getPlayer(requests.get(requests.size() - 1));
         if (requester != null) {
             acceptRequest(player, requester);
-        } else {
-            // erreur
-            return;
         }
     }
 
@@ -58,5 +56,16 @@ public class FriendsManager {
 
     public List<UUID> getFriends(Player player) {
         return friends.getOrDefault(player.getUniqueId(), new ArrayList<>());
+    }
+
+    public List<String> getRequests(Player player) {
+        List<UUID> req = requests.getOrDefault(player.getUniqueId(), new ArrayList<>());
+        List<String> names = new ArrayList<>();
+        for (UUID uuid : req) {
+            Player p = Bukkit.getPlayer(uuid);
+            names.add(p.getName());
+        }
+
+        return names;
     }
 }

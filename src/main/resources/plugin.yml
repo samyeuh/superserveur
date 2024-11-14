@@ -8,3 +8,19 @@ author: Samy
 commands:
   friends:
     description: Gère les amis (ajout, acceptation, liste, suppression)
+    usage: /friends <add|accept|list|remove> [pseudo]
+  f:
+    description: Alias de /friends
+    usage: /f <add|accept|list|remove> [pseudo]
+  party:
+    description: Gère les groupes (création, invitation, liste, suppression)
+    usage: /party <add|list|remove> [pseudo]
+  p:
+    description: Alias de /party
+    usage: /p <add|list|remove> [pseudo]
+  m:
+    description: Envoie un message privé à un joueur
+    usage: /m <pseudo> <message>
+  r:
+    description: Répond au dernier message privé reçu
+    usage: /r <message>

@@ -23,7 +23,6 @@ public class FriendsCommand implements CommandExecutor {
             return true;
         }
         FriendsSubCommand subCommand;
-
         if (args.length < 1 || args.length > 2 || !FriendsSubCommand.contains(args[0])) {
             subCommand = FriendsSubCommand.LIST;
         } else {
@@ -73,7 +72,11 @@ public class FriendsCommand implements CommandExecutor {
                     return true;
                 }
                 Player friendToDelete = Bukkit.getPlayer(args[1]);
-                friendsManager.removeFriend(player, friendToDelete);
+                if (friendToDelete != null && friendsManager.areFriends(player, friendToDelete)) {
+                    friendsManager.removeFriend(player, friendToDelete);
+                } else {
+                    player.sendMessage("Impossible de supprimer cet ami.");
+                }
                 break;
 
             case HELP:

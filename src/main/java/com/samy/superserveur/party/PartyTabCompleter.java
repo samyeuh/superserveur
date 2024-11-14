@@ -1,0 +1,45 @@
+package com.samy.superserveur.party;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class PartyTabCompleter implements TabCompleter {
+
+    private final PartyManager partyManager;
+
+    public PartyTabCompleter(PartyManager partyManager){
+        this.partyManager = partyManager;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            completions = Arrays.asList("add", "remove", "list", "help");
+        } else if (args.length == 2 && (args[1].equals("add")) || (args[1].equals("remove"))) {
+            if (args[1].equals("remove")){
+                Player p = (Player) sender;
+                completions = partyManager.getPartyMembers(p);
+            } else {
+                completions = getOnlinePlayers();
+            }
+        }
+
+        return completions;
+    }
+
+    // Exemple de méthode pour récupérer les joueurs en ligne
+    private List<String> getOnlinePlayers() {
+        List<String> playerNames = new ArrayList<>();
+        Bukkit.getOnlinePlayers().forEach(player -> playerNames.add(player.getName()));
+        return playerNames;
+    }
+}
