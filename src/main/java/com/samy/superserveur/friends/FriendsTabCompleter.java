@@ -23,12 +23,17 @@ public class FriendsTabCompleter implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions = Arrays.asList("add", "delete", "list", "help", "accept");
-        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove")) || (args[0].equals("accept"))) {
-            if (args[0].equals("accept")) {
+            Arrays.stream(FriendsSubCommand.values())
+                    .map(subCommand -> subCommand.name().toLowerCase())
+                    .forEach(completions::add);
+        } else if (args.length == 2) {
+            String subCommand = args[0].toLowerCase();
+            if (Arrays.asList("accept").contains(subCommand)) {
                 Player player = (Player) sender;
                 completions = friendsManager.getRequests(player);
-            } else {
+            } else if (Arrays.asList("remove", "delete").contains(subCommand)) {
+                completions = friendsManager.getFriendsName((Player) sender);
+            } else if (Arrays.asList("add", "invit").contains(subCommand)) {
                 completions = getOnlinePlayers();
                 completions.remove(sender.getName());
             }

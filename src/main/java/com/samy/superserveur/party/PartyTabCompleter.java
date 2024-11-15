@@ -23,24 +23,25 @@ public class PartyTabCompleter implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions = Arrays.asList("add", "remove", "list", "help", "accept");
-        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove")) || (args[0].equals("accept"))) {
-            if (args[0].equals("remove")){
+            Arrays.stream(PartySubCommand.values())
+                    .map(subCommand -> subCommand.name().toLowerCase())
+                    .forEach(completions::add);
+        } else if (args.length == 2) {
+            String subCommand = args[0].toLowerCase();
+            if (Arrays.asList("remove", "delete").contains(subCommand)) {
                 Player p = (Player) sender;
                 completions = partyManager.getPartyMembers(p);
                 completions.remove(sender.getName());
             } else if (args[0].equals("accept")) {
                 completions = partyManager.getPartyRequestLeader((Player) sender);
-            } else {
+            } else if (Arrays.asList("add", "invit").contains(subCommand)) {
                 completions = getOnlinePlayers();
                 completions.remove(sender.getName());
             }
         }
-
         return completions;
     }
 
-    // Exemple de méthode pour récupérer les joueurs en ligne
     private List<String> getOnlinePlayers() {
         List<String> playerNames = new ArrayList<>();
         Bukkit.getOnlinePlayers().forEach(player -> playerNames.add(player.getName()));

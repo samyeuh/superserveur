@@ -1,20 +1,23 @@
 package com.samy.superserveur.friends;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class FriendsMessageUtils {
 
-    private static final String friendHeader = ChatColor.GOLD + "[Amis] " + ChatColor.RESET;
+    private static final ChatColor headerColors = ChatColor.AQUA;
+    private static final ChatColor secondaryColor = ChatColor.LIGHT_PURPLE;
+    private static final String friendHeader = headerColors + "[Amis] " + ChatColor.RESET;
 
     private static String formatName(String name){
-        return ChatColor.GOLD + name + ChatColor.RESET;
+        return headerColors + name + ChatColor.RESET;
+    }
+
+    private static String formatCommand(String command){
+        return secondaryColor + command + ChatColor.RESET;
     }
 
     public static void friendConnected(CommandSender sender, String friend){
@@ -33,8 +36,9 @@ public class FriendsMessageUtils {
     }
 
     public static void friendRequestSent(CommandSender sender, Player friend){
-        sender.sendMessage(friendHeader + "Une requête d'ami a été envoyé à " + formatName(friend.getName()));
-        friend.sendMessage(friendHeader + formatName(sender.getName()) + " vous a envoyé une demande d'ami, pour l'accepter: /friends accept " + sender.getName());
+        sender.sendMessage(friendHeader + "Demande d'ami envoyée à " + formatName(friend.getName()));
+        friend.sendMessage(friendHeader + formatName(sender.getName()) + " veut devenir votre ami");
+        friend.sendMessage(friendHeader + "Tapez " + formatCommand("/friend accept " + sender.getName()) + " pour accepter.");
     }
 
     public static void friendRequestNotExist(CommandSender sender, String target) {
@@ -44,18 +48,20 @@ public class FriendsMessageUtils {
     public static void friendListHandler(CommandSender sender, List<String> onlineFriends, List<String> offlineFriends) {
 
         sender.sendMessage(friendHeader + "Vos amis:");
-        sender.sendMessage(ChatColor.GOLD + "---------------------------------");
+        sender.sendMessage(secondaryColor + "===============");
         if (onlineFriends.isEmpty() && offlineFriends.isEmpty()) {
             sender.sendMessage(ChatColor.GRAY + "Vous n'avez pas d'amis.");
         } else {
             for (String friend : onlineFriends) {
-                sender.sendMessage(ChatColor.GREEN + " ● " + formatName(friend));
+                String friendName = ChatColor.WHITE + friend + ChatColor.RESET;
+                sender.sendMessage(ChatColor.GREEN + " ● " + friendName);
             }
             for (String friend : offlineFriends) {
-                sender.sendMessage(ChatColor.RED + " ● " + formatName(friend));
+                String friendName = ChatColor.GRAY + friend + ChatColor.RESET;
+                sender.sendMessage(ChatColor.RED + " ● " + friendName);
             }
         }
-        sender.sendMessage(ChatColor.GOLD + "---------------------------------");
+        sender.sendMessage(secondaryColor + "===============");
     }
 
     public static void friendRemoved(CommandSender sender, String target) {

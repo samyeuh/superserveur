@@ -59,6 +59,16 @@ public class FriendsManager {
         return friends.getOrDefault(player.getUniqueId(), new ArrayList<>());
     }
 
+    public List<String> getFriendsName(Player player){
+        List<UUID> friends = getFriends(player);
+        List<String> names = new ArrayList<>();
+        for(UUID friend : friends){
+            Player p = Bukkit.getPlayer(friend);
+            names.add(p.getName());
+        }
+        return names;
+    }
+
     public List<String> getOnlineFriends(Player player) {
         List<UUID> friends = getFriends(player);
         List<String> names = new ArrayList<>();

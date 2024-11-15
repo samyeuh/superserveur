@@ -33,6 +33,7 @@ public class FriendsCommand implements CommandExecutor {
         }
 
         switch (subCommand) {
+            case INVIT:
             case ADD:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /friends add <joueur>");
@@ -62,7 +63,7 @@ public class FriendsCommand implements CommandExecutor {
             case LIST:
                 FriendsMessageUtils.friendListHandler(player, friendsManager.getOnlineFriends(player), friendsManager.getOfflineFriends(player));
                 break;
-
+            case REMOVE:
             case DELETE:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /friends delete <joueur>");

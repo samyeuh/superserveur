@@ -36,6 +36,24 @@ public class PartyManager {
         return names;
     }
 
+    public void disbandParty(Player player){
+        Party party = getPartyIfLeader(player);
+        if(party != null){
+            for (UUID member : party.getMembersWithoutLeader()) {
+                Player p = Bukkit.getPlayer(member);
+                PartyMessageUtils.partyInfo(p, "Le chef du groupe a dissous le groupe.");
+            }
+            partyList.remove(party);
+            PartyMessageUtils.partyInfo(player, "Vous avez dissous le groupe.");
+        } else {
+            if (isMemberOfAParty(player)){
+                PartyMessageUtils.partyError(player, "Vous n'êtes pas le chef du groupe.");
+            } else {
+                PartyMessageUtils.playerNoParty(player);
+            }
+        }
+    }
+
     public Party getParty(Player player){
         for(Party party : partyList){
             if(party.isMember(player)){
@@ -68,11 +86,9 @@ public class PartyManager {
         Party party = getPartyIfLeader(player);
         if(party != null){
             partyRequests.computeIfAbsent(target.getUniqueId(), k -> new ArrayList<>()).add(party);
-            player.sendMessage("Demande envoyée à " + target.getName());
-            target.sendMessage(player.getName() + " vous invite à rejoindre son groupe.");
-            target.sendMessage("Tapez /party accept " +  player.getName() + " pour rejoindre le groupe.");
+            PartyMessageUtils.partyRequest(player, target);
         } else {
-            player.sendMessage("Vous n'êtes pas le chef du groupe.");
+            PartyMessageUtils.partyError(player,"Vous n'êtes pas le chef du groupe.");
         }
     }
 

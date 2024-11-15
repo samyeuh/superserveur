@@ -28,6 +28,7 @@ public class PartyCommand implements CommandExecutor {
         }
 
         switch(subCommand){
+            case INVIT:
             case ADD:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /party add <joueur>");
@@ -36,6 +37,7 @@ public class PartyCommand implements CommandExecutor {
                 Player receiverToAdd = Bukkit.getPlayer(args[1]);
                 partyManager.checkPartyForRequest(player, receiverToAdd);
                 break;
+            case DELETE:
             case REMOVE:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /party remove <joueur>");
@@ -56,8 +58,12 @@ public class PartyCommand implements CommandExecutor {
                 Player senderToAccept = Bukkit.getPlayer(args[1]);
                 partyManager.acceptRequestFromPlayer(player, senderToAccept);
                 break;
+            case QUIT:
             case LEAVE:
                 partyManager.leaveParty(player);
+                break;
+            case DISBAND:
+                partyManager.disbandParty(player);
                 break;
         }
         return true;

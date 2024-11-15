@@ -2,8 +2,10 @@ package com.samy.superserveur.friends;
 
 public enum FriendsSubCommand {
     ADD,
+    INVIT,
     LIST,
     DELETE,
+    REMOVE,
     HELP,
     ACCEPT,
     JOIN;

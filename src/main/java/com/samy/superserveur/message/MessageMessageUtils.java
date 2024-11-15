@@ -8,12 +8,15 @@ public class MessageMessageUtils {
     private static final String crochetOuvert = ChatColor.GRAY + "[" + ChatColor.RESET;
     private static final String crochetFermer = ChatColor.GRAY + "]" + ChatColor.WHITE + " ";
     private static final String fleche = ChatColor.GRAY + " -> " + ChatColor.RESET;
-
+    private static final ChatColor headerColor = ChatColor.AQUA;
+    private static String formatName(String name){
+        return headerColor + name + ChatColor.RESET;
+    }
     public static void sendMessageSender(Player sender, Player receiver, String message) {
         String messageHeader = crochetOuvert +
-                ChatColor.WHITE + sender.getName()
+                ChatColor.GRAY + "Moi"
                 + fleche
-                + ChatColor.GOLD + receiver.getName()
+                + formatName(receiver.getName())
                 + crochetFermer;
         String messageToSend = messageHeader + message;
         sender.sendMessage(messageToSend);
@@ -21,9 +24,9 @@ public class MessageMessageUtils {
 
     public static void sendMessageReceiver(Player sender, Player receiver, String message) {
         String messageHeader = crochetOuvert
-                + ChatColor.GOLD + sender.getName()
+                + formatName(sender.getName())
                 + fleche
-                + ChatColor.WHITE + receiver.getName()
+                + ChatColor.GRAY + "Moi"
                 + crochetFermer;
         String messageToSend = messageHeader + message;
         receiver.sendMessage(messageToSend);
