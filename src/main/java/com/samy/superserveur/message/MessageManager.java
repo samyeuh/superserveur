@@ -10,7 +10,10 @@ public class MessageManager {
     Map<String, String> messagesReceived = new HashMap<>();
 
     public void sendMessage(Player sender, Player receiver, String message) {
-        messagesReceived.remove(receiver.getName());
+        if (sender == receiver) {
+            MessageMessageUtils.messageError(sender, "Vous ne pouvez pas vous envoyer de message.");
+            return;
+        }
         messagesReceived.put(receiver.getName(), sender.getName());
         MessageMessageUtils.sendMessageSender(sender, receiver, message);
         MessageMessageUtils.sendMessageReceiver(sender, receiver, message);

@@ -19,6 +19,7 @@ public class FriendsListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
         Player player = event.getPlayer();
         for (UUID friendId : friendsManager.getFriends(player)) {
             Player friend = Bukkit.getPlayer(friendId);
@@ -30,6 +31,7 @@ public class FriendsListener implements Listener {
 
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
         Player player = event.getPlayer();
         for (UUID friendId : friendsManager.getFriends(player)) {
             Player friend = Bukkit.getPlayer(friendId);

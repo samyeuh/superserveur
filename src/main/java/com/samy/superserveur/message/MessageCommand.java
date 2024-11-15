@@ -15,7 +15,6 @@ public class MessageCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] strings) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
             return true;
         }
 
@@ -35,14 +34,18 @@ public class MessageCommand implements CommandExecutor {
                 player.sendMessage("Utilisation: /r <message>");
                 return true;
             }
-            messageManager.respondMessage(player, strings[0]);
+            StringBuilder msg = new StringBuilder();
+            for (String string : strings) {
+                msg.append(string).append(" ");
+            }
+            messageManager.respondMessage(player, msg.toString());
         }
     return true;
     }
 
     public void sendMessageCommand(Player player, Player receiver, String message) {
         if (receiver == null || !receiver.isOnline()) {
-            player.sendMessage("Ce joueur n'est pas en ligne.");
+            MessageMessageUtils.messageError(player, "Le joueur n'est pas en ligne.");
             return;
         }
         messageManager.sendMessage(player, receiver, message);

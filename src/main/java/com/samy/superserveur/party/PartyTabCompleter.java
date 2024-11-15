@@ -24,11 +24,13 @@ public class PartyTabCompleter implements TabCompleter {
 
         if (args.length == 1) {
             completions = Arrays.asList("add", "remove", "list", "help", "accept");
-        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove"))) {
+        } else if (args.length == 2 && (args[0].equals("add")) || (args[0].equals("remove")) || (args[0].equals("accept"))) {
             if (args[0].equals("remove")){
                 Player p = (Player) sender;
                 completions = partyManager.getPartyMembers(p);
                 completions.remove(sender.getName());
+            } else if (args[0].equals("accept")) {
+                completions = partyManager.getPartyRequestLeader((Player) sender);
             } else {
                 completions = getOnlinePlayers();
                 completions.remove(sender.getName());

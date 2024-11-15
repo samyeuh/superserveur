@@ -61,4 +61,18 @@ public class FriendsMessageUtils {
     public static void friendRemoved(CommandSender sender, String target) {
         sender.sendMessage(friendHeader + formatName(target) + " n'est plus votre ami.");
     }
+
+    public static void friendErrorAdd(CommandSender sender, String target) {
+        if (sender.getName().equals(target)){
+            sender.sendMessage(friendHeader + ChatColor.RED + "Vous ne pouvez pas vous ajouter vous-même en ami.");
+        } else if (target != null) {
+            sender.sendMessage(friendHeader + ChatColor.RED + "Impossible d'ajouter " + ChatColor.RESET + formatName(target) + ChatColor.RED + " à vos amis.");
+        } else {
+            sender.sendMessage(friendHeader + ChatColor.RED + "Impossible de trouver le joueur ");
+        }
+    }
+
+    public static void friendError(CommandSender sender, String error){
+        sender.sendMessage(friendHeader + ChatColor.RED + error);
+    }
 }

@@ -25,6 +25,12 @@ public class Party {
         return members;
     }
 
+    public List<UUID> getMembersWithoutLeader(){
+        List<UUID> membersWithoutLeader = new ArrayList<>(members);
+        membersWithoutLeader.remove(leaderId);
+        return membersWithoutLeader;
+    }
+
     public void addMember(Player player){
         members.add(player.getUniqueId());
     }

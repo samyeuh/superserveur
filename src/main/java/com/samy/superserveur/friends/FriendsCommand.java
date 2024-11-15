@@ -23,8 +23,11 @@ public class FriendsCommand implements CommandExecutor {
             return true;
         }
         FriendsSubCommand subCommand;
-        if (args.length < 1 || args.length > 2 || !FriendsSubCommand.contains(args[0])) {
+        if (args == null || args.length == 0) {
             subCommand = FriendsSubCommand.LIST;
+        } else if (!FriendsSubCommand.contains(args[0])) {
+            FriendsMessageUtils.friendError(player, "Commande inconnue.");
+            return true;
         } else {
             subCommand = FriendsSubCommand.valueOf(args[0].toUpperCase());
         }
@@ -39,7 +42,7 @@ public class FriendsCommand implements CommandExecutor {
                 if (newFriend != null && newFriend.isOnline() && !newFriend.equals(player) && !friendsManager.areFriends(player, newFriend)) {
                     friendsManager.sendRequest(player, newFriend);
                 } else {
-                    player.sendMessage("Impossible d'ajouter cet ami.");
+                    FriendsMessageUtils.friendErrorAdd(player, newFriend.getName());
                 }
                 break;
 

@@ -6,6 +6,7 @@ public enum PartySubCommand {
     ACCEPT,
     LIST,
     REMOVE,
+    LEAVE,
     HELP;
 
     public static boolean contains(String test) {

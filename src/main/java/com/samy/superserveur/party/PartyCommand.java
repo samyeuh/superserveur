@@ -34,7 +34,7 @@ public class PartyCommand implements CommandExecutor {
                     break;
                 }
                 Player receiverToAdd = Bukkit.getPlayer(args[1]);
-                partyManager.addPlayerToParty(player, receiverToAdd);
+                partyManager.checkPartyForRequest(player, receiverToAdd);
                 break;
             case REMOVE:
                 if (args.length < 2) {
@@ -42,10 +42,23 @@ public class PartyCommand implements CommandExecutor {
                     break;
                 }
                 Player receiverToRemove = Bukkit.getPlayer(args[1]);
-                partyManager.removePlayerFromParty(receiverToRemove);
+                partyManager.removePlayerFromParty(player, receiverToRemove);
                 break;
             case LIST:
                 partyManager.listParty(player);
+                break;
+
+            case ACCEPT:
+                if (args.length < 2) {
+                    partyManager.acceptMostRecentRequest(player);
+                    break;
+                }
+                Player senderToAccept = Bukkit.getPlayer(args[1]);
+                partyManager.acceptRequestFromPlayer(player, senderToAccept);
+                break;
+            case LEAVE:
+                partyManager.leaveParty(player);
+                break;
         }
         return true;
     }
