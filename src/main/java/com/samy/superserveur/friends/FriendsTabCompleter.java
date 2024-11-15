@@ -30,13 +30,13 @@ public class FriendsTabCompleter implements TabCompleter {
                 completions = friendsManager.getRequests(player);
             } else {
                 completions = getOnlinePlayers();
+                completions.remove(sender.getName());
             }
         }
 
         return completions;
     }
 
-    // Exemple de méthode pour récupérer les joueurs en ligne
     private List<String> getOnlinePlayers() {
         List<String> playerNames = new ArrayList<>();
         Bukkit.getOnlinePlayers().forEach(player -> playerNames.add(player.getName()));

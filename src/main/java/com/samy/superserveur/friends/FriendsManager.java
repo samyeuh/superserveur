@@ -48,7 +48,7 @@ public class FriendsManager {
     public void removeFriend(Player player, Player friend){
         friends.getOrDefault(player.getUniqueId(), new ArrayList<>()).remove(friend.getUniqueId());
         friends.getOrDefault(friend.getUniqueId(), new ArrayList<>()).remove(player.getUniqueId());
-        // message
+        FriendsMessageUtils.friendRemoved(player, friend.getName());
     }
 
     public boolean areFriends(Player player, Player friend) {

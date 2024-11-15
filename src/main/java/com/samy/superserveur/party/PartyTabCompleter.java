@@ -28,8 +28,10 @@ public class PartyTabCompleter implements TabCompleter {
             if (args[0].equals("remove")){
                 Player p = (Player) sender;
                 completions = partyManager.getPartyMembers(p);
+                completions.remove(sender.getName());
             } else {
                 completions = getOnlinePlayers();
+                completions.remove(sender.getName());
             }
         }
 

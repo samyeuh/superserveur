@@ -25,7 +25,11 @@ public class MessageCommand implements CommandExecutor {
                 return true;
             }
             Player receiver = player.getServer().getPlayer(strings[0]);
-            sendMessageCommand(player, receiver, strings[1]);
+            StringBuilder msg = new StringBuilder();
+            for (int i = 1; i < strings.length; i++) {
+                msg.append(strings[i]).append(" ");
+            }
+            sendMessageCommand(player, receiver, msg.toString());
         } else if (label.equals("r")) {
             if (strings.length < 1) {
                 player.sendMessage("Utilisation: /r <message>");

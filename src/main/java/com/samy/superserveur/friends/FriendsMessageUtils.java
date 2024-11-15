@@ -44,11 +44,16 @@ public class FriendsMessageUtils {
     public static void friendListHandler(CommandSender sender, List<String> onlineFriends, List<String> offlineFriends) {
 
         sender.sendMessage(friendHeader + "Vos amis:");
-        for (String friend : onlineFriends) {
-            sender.sendMessage(ChatColor.GREEN + " ● " + formatName(friend));
-        }
-        for (String friend : offlineFriends) {
-            sender.sendMessage(ChatColor.RED + " ● " + formatName(friend));
+        sender.sendMessage(ChatColor.GOLD + "---------------------------------");
+        if (onlineFriends.isEmpty() && offlineFriends.isEmpty()) {
+            sender.sendMessage(ChatColor.GRAY + "Vous n'avez pas d'amis.");
+        } else {
+            for (String friend : onlineFriends) {
+                sender.sendMessage(ChatColor.GREEN + " ● " + formatName(friend));
+            }
+            for (String friend : offlineFriends) {
+                sender.sendMessage(ChatColor.RED + " ● " + formatName(friend));
+            }
         }
         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
     }

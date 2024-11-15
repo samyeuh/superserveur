@@ -16,6 +16,7 @@ public class MessageTabCompleter implements TabCompleter {
 
         if (args.length == 1 && alias.equals("m")) {
             completions = getOnlinePlayers();
+            completions.remove(sender.getName());
         }
 
         return completions;

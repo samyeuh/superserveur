@@ -12,7 +12,8 @@ public class MessageManager {
     public void sendMessage(Player sender, Player receiver, String message) {
         messagesReceived.remove(receiver.getName());
         messagesReceived.put(receiver.getName(), sender.getName());
-        MessageMessageUtils.sendMessage(sender, receiver, message);
+        MessageMessageUtils.sendMessageSender(sender, receiver, message);
+        MessageMessageUtils.sendMessageReceiver(sender, receiver, message);
     }
 
     public void respondMessage(Player sender, String message) {
