@@ -1,6 +1,7 @@
 package com.samy.superserveur.party;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,15 @@ public class PartyManager {
 
     public PartyManager(){
         this.partyList = new ArrayList<>();
+    }
+
+    public boolean isInParty(Player player){
+        for(Party party : partyList){
+            if(party.isMember(player)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Party getPartyIfLeader(Player leader){
@@ -173,10 +183,20 @@ public class PartyManager {
         List<String> names = new ArrayList<>();
         if (party != null && party.getLeaderId() != null){
             Player leader = Bukkit.getPlayer(party.getLeaderId());
-            names.add(leader.getName());
+            if (leader != null) {
+                names.add(leader.getName());
+            } else {
+                OfflinePlayer offlineLeader = Bukkit.getOfflinePlayer(party.getLeaderId());
+                names.add(offlineLeader.getName());
+            }
             for (UUID player : party.getMembersWithoutLeader()) {
                 Player p = Bukkit.getPlayer(player);
-                names.add(p.getName());
+                if (p != null){
+                    names.add(p.getName());
+                } else {
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
+                    names.add(offlinePlayer.getName());
+                }
             }
             return names;
         }

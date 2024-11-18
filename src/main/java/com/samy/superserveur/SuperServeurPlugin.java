@@ -24,7 +24,6 @@ public class SuperServeurPlugin extends JavaPlugin {
         enableMessage();
 
         this.getCommand("help").setExecutor(new HelpCommand());
-
         getLogger().info("SuperServeurPlugin est activé !");
     }
 
@@ -57,6 +56,8 @@ public class SuperServeurPlugin extends JavaPlugin {
 
         this.getCommand("party").setTabCompleter(partyTabCompleter);
         this.getCommand("p").setTabCompleter(partyTabCompleter);
+
+        getServer().getPluginManager().registerEvents(new PartyListener(partyManager), this);
     }
 
     public void enableMessage(){
