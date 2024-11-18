@@ -4,6 +4,7 @@ import com.samy.superserveur.friends.FriendsCommand;
 import com.samy.superserveur.friends.FriendsListener;
 import com.samy.superserveur.friends.FriendsManager;
 import com.samy.superserveur.friends.FriendsTabCompleter;
+import com.samy.superserveur.help.HelpCommand;
 import com.samy.superserveur.message.MessageCommand;
 import com.samy.superserveur.message.MessageManager;
 import com.samy.superserveur.message.MessageTabCompleter;
@@ -21,6 +22,9 @@ public class SuperServeurPlugin extends JavaPlugin {
         enableFriends();
         enableParty();
         enableMessage();
+
+        this.getCommand("help").setExecutor(new HelpCommand());
+
         getLogger().info("SuperServeurPlugin est activé !");
     }
 
