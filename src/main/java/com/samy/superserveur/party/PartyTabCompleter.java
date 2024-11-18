@@ -21,22 +21,38 @@ public class PartyTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
+        List<PartySubCommand> subCommands = new ArrayList<>();
+        List<PartySubCommand> memberCommands = Arrays.asList(PartySubCommand.QUIT, PartySubCommand.LIST, PartySubCommand.LEAVE);
+        List<PartySubCommand> leaderCommands = Arrays.asList(PartySubCommand.DISBAND, PartySubCommand.REMOVE, PartySubCommand.DELETE, PartySubCommand.ADD, PartySubCommand.INVIT, PartySubCommand.REMOVE);
+        List<PartySubCommand> noPartyCommands = Arrays.asList(PartySubCommand.ADD, PartySubCommand.ACCEPT, PartySubCommand.INVIT);
+        subCommands.add(PartySubCommand.HELP);
+
+        Player player = (Player) sender;
+
+
+        if (partyManager.isMemberOfAParty(player)) {
+            subCommands.addAll(memberCommands);
+        } else if (partyManager.getPartyIfLeader(player) != null) {
+            subCommands.addAll(leaderCommands);
+        } else {
+            subCommands.addAll(noPartyCommands);
+        }
 
         if (args.length == 1) {
             Arrays.stream(PartySubCommand.values())
+                    .filter(subCommands::contains)
                     .map(subCommand -> subCommand.name().toLowerCase())
                     .forEach(completions::add);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
             if (Arrays.asList("remove", "delete").contains(subCommand)) {
-                Player p = (Player) sender;
-                completions = partyManager.getPartyMembers(p);
-                completions.remove(sender.getName());
+                completions = partyManager.getPartyMembers(player);
+                completions.remove(player.getName());
             } else if (args[0].equals("accept")) {
-                completions = partyManager.getPartyRequestLeader((Player) sender);
+                completions = partyManager.getPartyRequestLeader(player);
             } else if (Arrays.asList("add", "invit").contains(subCommand)) {
                 completions = getOnlinePlayers();
-                completions.remove(sender.getName());
+                completions.remove(player.getName());
             }
         }
         return completions;
