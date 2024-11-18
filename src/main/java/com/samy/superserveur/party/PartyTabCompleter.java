@@ -23,8 +23,8 @@ public class PartyTabCompleter implements TabCompleter {
         List<String> completions = new ArrayList<>();
         List<PartySubCommand> subCommands = new ArrayList<>();
         List<PartySubCommand> memberCommands = Arrays.asList(PartySubCommand.QUIT, PartySubCommand.LIST, PartySubCommand.LEAVE);
-        List<PartySubCommand> leaderCommands = Arrays.asList(PartySubCommand.DISBAND, PartySubCommand.REMOVE, PartySubCommand.DELETE, PartySubCommand.ADD, PartySubCommand.INVIT, PartySubCommand.REMOVE);
-        List<PartySubCommand> noPartyCommands = Arrays.asList(PartySubCommand.ADD, PartySubCommand.ACCEPT, PartySubCommand.INVIT);
+        List<PartySubCommand> leaderCommands = Arrays.asList(PartySubCommand.DISBAND, PartySubCommand.REMOVE, PartySubCommand.DELETE, PartySubCommand.ADD, PartySubCommand.INVITE, PartySubCommand.REMOVE);
+        List<PartySubCommand> noPartyCommands = Arrays.asList(PartySubCommand.ADD, PartySubCommand.ACCEPT, PartySubCommand.INVITE);
         subCommands.add(PartySubCommand.HELP);
 
         Player player = (Player) sender;
@@ -34,6 +34,7 @@ public class PartyTabCompleter implements TabCompleter {
             subCommands.addAll(memberCommands);
         } else if (partyManager.getPartyIfLeader(player) != null) {
             subCommands.addAll(leaderCommands);
+            subCommands.addAll(memberCommands);
         } else {
             subCommands.addAll(noPartyCommands);
         }
@@ -50,7 +51,7 @@ public class PartyTabCompleter implements TabCompleter {
                 completions.remove(player.getName());
             } else if (args[0].equals("accept")) {
                 completions = partyManager.getPartyRequestLeader(player);
-            } else if (Arrays.asList("add", "invit").contains(subCommand)) {
+            } else if (Arrays.asList("add", "invite").contains(subCommand)) {
                 completions = getOnlinePlayers();
                 completions.remove(player.getName());
             }

@@ -6,8 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class FriendsCommand implements CommandExecutor {
 
     public final FriendsManager friendsManager;
@@ -33,7 +31,7 @@ public class FriendsCommand implements CommandExecutor {
         }
 
         switch (subCommand) {
-            case INVIT:
+            case INVITE:
             case ADD:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /friends add <joueur>");

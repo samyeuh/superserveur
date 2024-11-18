@@ -1,6 +1,5 @@
 package com.samy.superserveur.party;
 
-import com.samy.superserveur.friends.FriendsSubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,7 +27,7 @@ public class PartyCommand implements CommandExecutor {
         }
 
         switch(subCommand){
-            case INVIT:
+            case INVITE:
             case ADD:
                 if (args.length < 2) {
                     player.sendMessage("Utilisation: /party add <joueur>");

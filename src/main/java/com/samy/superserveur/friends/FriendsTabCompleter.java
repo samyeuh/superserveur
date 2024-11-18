@@ -21,21 +21,29 @@ public class FriendsTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
+        List<FriendsSubCommand> noFriendCommands = Arrays.asList(FriendsSubCommand.ADD, FriendsSubCommand.INVITE, FriendsSubCommand.ACCEPT, FriendsSubCommand.HELP);
+        List<FriendsSubCommand> friendCommands = Arrays.asList(FriendsSubCommand.REMOVE, FriendsSubCommand.DELETE, FriendsSubCommand.JOIN, FriendsSubCommand.LIST);
+        List<FriendsSubCommand> subCommands = new ArrayList<>(noFriendCommands);
+
+        Player p = (Player) sender;
+        if (!friendsManager.getFriends(p).isEmpty()) {
+            subCommands.addAll(friendCommands);
+        }
 
         if (args.length == 1) {
             Arrays.stream(FriendsSubCommand.values())
+                    .filter(subCommands::contains)
                     .map(subCommand -> subCommand.name().toLowerCase())
                     .forEach(completions::add);
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
             if (Arrays.asList("accept").contains(subCommand)) {
-                Player player = (Player) sender;
-                completions = friendsManager.getRequests(player);
+                completions = friendsManager.getRequests(p);
             } else if (Arrays.asList("remove", "delete").contains(subCommand)) {
-                completions = friendsManager.getFriendsName((Player) sender);
-            } else if (Arrays.asList("add", "invit").contains(subCommand)) {
+                completions = friendsManager.getFriendsName(p);
+            } else if (Arrays.asList("add", "invite").contains(subCommand)) {
                 completions = getOnlinePlayers();
-                completions.remove(sender.getName());
+                completions.remove(p.getName());
             }
         }
 
