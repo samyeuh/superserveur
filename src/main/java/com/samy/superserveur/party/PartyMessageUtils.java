@@ -1,5 +1,9 @@
 package com.samy.superserveur.party;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -16,8 +20,13 @@ public class PartyMessageUtils {
         return headerColor + name + ChatColor.RESET;
     }
 
-    public static String formatCommand(String command){
-        return secondaryColor + command + ChatColor.RESET;
+    public static TextComponent formatCommand(String command, String text, String hover){
+        TextComponent result = new TextComponent(partyHeader + "[" + secondaryColor);
+        result.addExtra(text);
+        result.addExtra(ChatColor.WHITE + "]");
+        result.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        result.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hover)));
+        return result;
     }
 
     public static void playerNoParty(Player player){
@@ -27,7 +36,7 @@ public class PartyMessageUtils {
     public static void partyRequest(Player player, Player target){
         player.sendMessage(partyHeader + "Demande envoyée à " + formatName(target.getName()));
         target.sendMessage(partyHeader + formatName(player.getName()) + " vous invite à rejoindre son groupe.");
-        target.sendMessage("Tapez" + formatCommand(" /party accept " +  player.getName()) + " pour rejoindre le groupe.");
+        target.spigot().sendMessage(formatCommand("/party accept " +  player.getName(), "Cliquez ici pour accepter", "Accepter la demande de " + player.getName()));
     }
 
     public static void partyList(Player player, List<String> members){
