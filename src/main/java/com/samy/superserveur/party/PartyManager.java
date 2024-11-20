@@ -158,6 +158,7 @@ public class PartyManager {
         Party party = getParty(player);
         if(party != null){
             if(party.isLeader(player)){
+                PartyMessageUtils.partyInfo(player, "Vous avez quitté le groupe.");
                 for (UUID member : party.getMembersWithoutLeader()) {
                     Player p = Bukkit.getPlayer(member);
                     PartyMessageUtils.partyError(p, "Le chef du groupe a quitté le groupe.");
