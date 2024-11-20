@@ -7,23 +7,34 @@ author: Samy
 
 commands:
   friends:
+    display: true
     description: Gère les amis
     usage: /friends help
   f:
+    display: true
     description: Gère les amis
     usage: /f help
   party:
+    display: true
     description: Gère les groupes
     usage: /party help
   p:
+    display: true
     description: Gère les groupes
     usage: /p help
   m:
+    display: true
     description: Envoyer un message privé
     usage: /m <pseudo> <message>
   r:
+    display: true
     description: Répondre au dernier message privé
     usage: /r <message>
   help:
+    display: true
     description: Affiche cette page
     usage: /help
+  rank:
+    display: false
+    description: Gère les ranks
+    usage: /rank
