@@ -9,6 +9,9 @@ import com.samy.superserveur.message.MessageCommand;
 import com.samy.superserveur.message.MessageManager;
 import com.samy.superserveur.message.MessageTabCompleter;
 import com.samy.superserveur.party.*;
+import com.samy.superserveur.rank.RankCommand;
+import com.samy.superserveur.rank.RankListener;
+import com.samy.superserveur.rank.RankManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SuperServeurPlugin extends JavaPlugin {
@@ -16,15 +19,20 @@ public class SuperServeurPlugin extends JavaPlugin {
     private FriendsManager friendsManager;
     private PartyManager partyManager;
     private MessageManager messageManager;
+    private RankManager rankManager;
 
     @Override
     public void onEnable() {
         enableFriends();
         enableParty();
         enableMessage();
+        enableHelp();
+        enableRanks();
 
-        this.getCommand("help").setExecutor(new HelpCommand());
+
         getLogger().info("SuperServeurPlugin est activé !");
+
+
     }
 
     @Override
@@ -70,5 +78,15 @@ public class SuperServeurPlugin extends JavaPlugin {
 
         this.getCommand("m").setTabCompleter(messageTabCompleter);
         this.getCommand("r").setTabCompleter(messageTabCompleter);
+    }
+
+    public void enableHelp(){
+        this.getCommand("help").setExecutor(new HelpCommand());
+    }
+
+    public void enableRanks(){
+        rankManager = new RankManager();
+        this.getCommand("rank").setExecutor(new RankCommand(rankManager));
+        getServer().getPluginManager().registerEvents(new RankListener(rankManager), this);
     }
 }

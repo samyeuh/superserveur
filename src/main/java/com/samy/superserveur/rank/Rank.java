@@ -8,28 +8,28 @@ import java.util.List;
 public class Rank {
 
     private final String name;
-    private final List<Permissions> permissionsList;
+    private final Permissions permissions;
     private final ChatColor color;
 
-    public Rank(String name, List<String> permissions, String chatColor){
+    public Rank(String name, Permissions permissions, ChatColor chatColor){
         this.name = name;
-        this.permissionsList = setPerms(permissions);
-        this.color = ChatColor.valueOf(chatColor);
-    }
-
-    public List<Permissions> setPerms(List<String> permissions){
-        List<Permissions> perms = new ArrayList<>();
-        for(String perm : permissions){
-            perms.add(Permissions.valueOf(perm));
-        }
-        return perms;
+        this.permissions = permissions;
+        this.color = chatColor;
     }
 
     public String getName() {
+        return name;
+    }
+
+    public ChatColor getColor() {
+        return color;
+    }
+
+    public String getColorName(){
         return color + name;
     }
 
     public boolean hasPermissions(Permissions perm){
-        return permissionsList.contains(perm) || permissionsList.contains(Permissions.ALL);
+        return permissions.ordinal() >= perm.ordinal();
     }
 }
