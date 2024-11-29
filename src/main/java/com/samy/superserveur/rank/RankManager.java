@@ -1,25 +1,35 @@
 package com.samy.superserveur.rank;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.samy.superserveur.tab.TabManager.assignPlayerToTeam;
+import static com.samy.superserveur.tab.TabManager.teams;
+
 public class RankManager {
 
-        private HashMap<String, Rank> playersRank = new HashMap<>();
-        private List<Rank> rankList;
+        private final HashMap<String, Rank> playersRank = new HashMap<>();
+        private final List<Rank> rankList;
+        private final Scoreboard scoreboard;
 
-        public RankManager(){
+        public RankManager(Scoreboard scoreboard){
             Rank Joueur = new Rank("Joueur", Permissions.PLAYER, ChatColor.GRAY);
             Rank vip = new Rank("VIP", Permissions.VIP, ChatColor.YELLOW);
             Rank vipplus = new Rank("VIP+", Permissions.VIPPLUS, ChatColor.AQUA);
             Rank modo = new Rank("Modo", Permissions.MODO, ChatColor.RED);
             Rank admin = new Rank("Admin", Permissions.ADMIN, ChatColor.DARK_RED);
-            this.rankList = Arrays.asList(Joueur, vip, vipplus, modo, admin);
+            this.rankList = Arrays.asList(admin, modo, vipplus, vip, Joueur);
+            this.scoreboard = scoreboard;
+        }
+
+        public List<Rank> getRanks(){
+            return rankList;
         }
 
         public Rank findRank(String rankName){
@@ -34,7 +44,15 @@ public class RankManager {
 
         public void setRank(Player player, Rank rank){
             playersRank.put(player.getName(), rank);
+            setUpRankTab();
+            updateTab();
             setAllName(player);
+        }
+
+        public void updateTab(){
+            for (Player p : Bukkit.getOnlinePlayers()){
+                p.setScoreboard(scoreboard);
+            }
         }
 
         public Rank getRank(Player player){
@@ -46,15 +64,44 @@ public class RankManager {
         }
 
         public void setAllName(Player player){
-            player.setDisplayName(printName(player));
-            player.setCustomName(printName(player));
-            player.setPlayerListName(printName(player));
+            player.setDisplayName(printRankName(player));
+            player.setPlayerListName(printRankName(player));
+            //player.setCustomName(printName(player));
+        }
+
+        public String printRankName(Player player){
+            Rank rank = getRank(player);
+            return rank.getColorName() + " " + player.getName() + ChatColor.RESET;
         }
 
         public String printName(Player player){
             Rank rank = getRank(player);
-            return rank.getColorName() + " " + player.getName() + ChatColor.RESET;
+            return rank.getColor() + player.getName();
         }
+
+    public void setUpRankTab() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            Rank rank = getRank(p);
+            switch (rank.getName().toLowerCase()) {
+                case "admin":
+                    assignPlayerToTeam(teams.get(0), p);
+                    break;
+                case "modo":
+                    assignPlayerToTeam(teams.get(1), p);
+                    break;
+                case "vip+":
+                    assignPlayerToTeam(teams.get(2), p);
+                    break;
+                case "vip":
+                    assignPlayerToTeam(teams.get(3), p);
+                    break;
+                default:
+                    assignPlayerToTeam(teams.get(4), p);
+                    break;
+            }
+            p.setScoreboard(scoreboard);
+        }
+    }
 
 
 }

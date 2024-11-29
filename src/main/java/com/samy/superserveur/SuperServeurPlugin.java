@@ -12,22 +12,25 @@ import com.samy.superserveur.party.*;
 import com.samy.superserveur.rank.RankCommand;
 import com.samy.superserveur.rank.RankListener;
 import com.samy.superserveur.rank.RankManager;
+import com.samy.superserveur.tab.TabManager;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class SuperServeurPlugin extends JavaPlugin {
 
-    private FriendsManager friendsManager;
-    private PartyManager partyManager;
-    private MessageManager messageManager;
     private RankManager rankManager;
+    private Scoreboard scoreboard;
 
     @Override
     public void onEnable() {
+        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        enableRanks();
+        enableTab();
         enableFriends();
         enableParty();
         enableMessage();
         enableHelp();
-        enableRanks();
 
 
         getLogger().info("SuperServeurPlugin est activé !");
@@ -41,7 +44,7 @@ public class SuperServeurPlugin extends JavaPlugin {
     }
 
     public void enableFriends() {
-        friendsManager = new FriendsManager();
+        FriendsManager friendsManager = new FriendsManager();
         FriendsCommand friendsCommand = new FriendsCommand(friendsManager);
         FriendsTabCompleter friendsTabCompleter = new FriendsTabCompleter(friendsManager);
 
@@ -55,7 +58,7 @@ public class SuperServeurPlugin extends JavaPlugin {
     }
 
     public void enableParty() {
-        partyManager = new PartyManager();
+        PartyManager partyManager = new PartyManager();
         PartyCommand partyCommand = new PartyCommand(partyManager);
         PartyTabCompleter partyTabCompleter = new PartyTabCompleter(partyManager);
 
@@ -69,7 +72,7 @@ public class SuperServeurPlugin extends JavaPlugin {
     }
 
     public void enableMessage(){
-        messageManager = new MessageManager();
+        MessageManager messageManager = new MessageManager();
         MessageCommand messageCommand = new MessageCommand(messageManager);
         MessageTabCompleter messageTabCompleter = new MessageTabCompleter();
 
@@ -85,8 +88,13 @@ public class SuperServeurPlugin extends JavaPlugin {
     }
 
     public void enableRanks(){
-        rankManager = new RankManager();
+        rankManager = new RankManager(scoreboard);
         this.getCommand("rank").setExecutor(new RankCommand(rankManager));
         getServer().getPluginManager().registerEvents(new RankListener(rankManager), this);
+    }
+
+    public void enableTab(){
+        TabManager tabManager = new TabManager(scoreboard, rankManager.getRanks());
+        tabManager.createRankTab();
     }
 }

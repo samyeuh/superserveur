@@ -87,7 +87,8 @@ public class FriendsManager {
         for(UUID friend : friends){
             Player p = Bukkit.getPlayer(friend);
             if(p == null || !p.isOnline()){
-                names.add(friend.toString());
+                Player offlineP = Bukkit.getOfflinePlayer(friend).getPlayer();
+                names.add(offlineP.getName());
             }
         }
         return names;

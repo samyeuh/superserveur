@@ -2,9 +2,6 @@ package com.samy.superserveur.rank;
 
 import org.bukkit.ChatColor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Rank {
 
     private final String name;

@@ -20,7 +20,7 @@ public class RankListener implements Listener {
         if (rank == null){
             rankManager.setRank(p, rankManager.findRank("Joueur"));
         } else {
-            rankManager.setAllName(p);
+            rankManager.setRank(p, rank);
         }
     }
 }
