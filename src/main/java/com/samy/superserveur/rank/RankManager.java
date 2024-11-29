@@ -66,17 +66,11 @@ public class RankManager {
         public void setAllName(Player player){
             player.setDisplayName(printRankName(player));
             player.setPlayerListName(printRankName(player));
-            //player.setCustomName(printName(player));
         }
 
         public String printRankName(Player player){
             Rank rank = getRank(player);
             return rank.getColorName() + " " + player.getName() + ChatColor.RESET;
-        }
-
-        public String printName(Player player){
-            Rank rank = getRank(player);
-            return rank.getColor() + player.getName();
         }
 
     public void setUpRankTab() {
@@ -99,7 +93,6 @@ public class RankManager {
                     assignPlayerToTeam(teams.get(4), p);
                     break;
             }
-            p.setScoreboard(scoreboard);
         }
     }
 

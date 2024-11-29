@@ -1,7 +1,6 @@
 package com.samy.superserveur.tab;
 
 import com.samy.superserveur.rank.Rank;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -20,28 +19,29 @@ public class TabManager {
         this.ranks = ranks;
     }
 
-    public Team createTeam(String teamName, ChatColor color) {
+    public Team createTeam(String teamName, Rank rank) {
         Team t = scoreboard.registerNewTeam(teamName);
-        t.setPrefix(color + " ");
+        t.setColor(rank.getColor());
         return t;
     }
 
     public static void assignPlayerToTeam(Team team, Player player) {
         String pseudo = player.getName();
-        for (Team t : teams){
-            if (t.hasEntry(pseudo)){
+        for (Team t : teams) {
+            if (t.hasEntry(pseudo)) {
                 t.removeEntry(pseudo);
             }
         }
         team.addEntry(pseudo);
+        player.setScoreboard(team.getScoreboard());
     }
 
     public void createRankTab(){
-        Team admin = createTeam("01_admin", ranks.get(0).getColor());
-        Team mod = createTeam("02_mod", ranks.get(1).getColor());
-        Team vipplus = createTeam("03_vip+", ranks.get(2).getColor());
-        Team vip = createTeam("04_vip", ranks.get(3).getColor());
-        Team player = createTeam("05_player", ranks.get(4).getColor());
+        Team admin = createTeam("01_admin", ranks.get(0));
+        Team mod = createTeam("02_mod", ranks.get(1));
+        Team vipplus = createTeam("03_vip+", ranks.get(2));
+        Team vip = createTeam("04_vip", ranks.get(3));
+        Team player = createTeam("05_player", ranks.get(4));
         teams = Arrays.asList(admin, mod, vipplus, vip, player);
     }
 }
