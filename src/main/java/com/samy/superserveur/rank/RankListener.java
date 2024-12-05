@@ -18,7 +18,7 @@ public class RankListener implements Listener {
         Player p = event.getPlayer();
         Rank rank = rankManager.getRank(p);
         if (rank == null){
-            rankManager.setRank(p, rankManager.findRank("Joueur"));
+            rankManager.setRank(p, rankManager.getJoueurRank());
         } else {
             rankManager.setRank(p, rank);
         }

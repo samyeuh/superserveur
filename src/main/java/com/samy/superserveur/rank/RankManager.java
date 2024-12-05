@@ -41,6 +41,10 @@ public class RankManager {
             return null;
         }
 
+        public Rank getJoueurRank(){
+            return rankList.get(4);
+        }
+
 
         public void setRank(Player player, Rank rank){
             playersRank.put(player.getName(), rank);
@@ -76,6 +80,7 @@ public class RankManager {
     public void setUpRankTab() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             Rank rank = getRank(p);
+            if (rank == null) rank = getJoueurRank();
             switch (rank.getName().toLowerCase()) {
                 case "admin":
                     assignPlayerToTeam(teams.get(0), p);
