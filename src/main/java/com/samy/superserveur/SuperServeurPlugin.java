@@ -14,13 +14,20 @@ import com.samy.superserveur.rank.RankListener;
 import com.samy.superserveur.rank.RankManager;
 import com.samy.superserveur.tab.TabManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class SuperServeurPlugin extends JavaPlugin {
 
     private RankManager rankManager;
     private Scoreboard scoreboard;
+    private FriendsManager friendsManager;
 
     @Override
     public void onEnable() {
@@ -32,19 +39,17 @@ public class SuperServeurPlugin extends JavaPlugin {
         enableMessage();
         enableHelp();
 
-
-        getLogger().info("SuperServeurPlugin est activé !");
-
+        getLogger().info("Plugin core est activé !");
 
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("SuperServeurPlugin est désactivé.");
+        getLogger().info("Plugin core désactivé !");
     }
 
     public void enableFriends() {
-        FriendsManager friendsManager = new FriendsManager();
+        friendsManager = new FriendsManager();
         FriendsCommand friendsCommand = new FriendsCommand(friendsManager);
         FriendsTabCompleter friendsTabCompleter = new FriendsTabCompleter(friendsManager);
 
@@ -96,5 +101,9 @@ public class SuperServeurPlugin extends JavaPlugin {
     public void enableTab(){
         TabManager tabManager = new TabManager(scoreboard, rankManager.getRanks());
         tabManager.createRankTab();
+    }
+
+    public Map<UUID, List<UUID>> getFriends(){
+        return friendsManager.getFriends();
     }
 }

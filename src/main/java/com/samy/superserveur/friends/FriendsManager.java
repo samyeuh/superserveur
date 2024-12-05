@@ -3,10 +3,7 @@ package com.samy.superserveur.friends;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FriendsManager {
     private final HashMap<UUID, List<UUID>> friends = new HashMap<>();
@@ -103,5 +100,9 @@ public class FriendsManager {
         }
 
         return names;
+    }
+
+    public Map<UUID, List<UUID>> getFriends(){
+        return friends;
     }
 }
