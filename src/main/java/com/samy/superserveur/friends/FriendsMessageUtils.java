@@ -1,14 +1,13 @@
 package com.samy.superserveur.friends;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import java.util.List;
+
+import static com.samy.superserveur.party.PartyMessageUtils.getTextComponent;
 
 public class FriendsMessageUtils {
 
@@ -21,12 +20,7 @@ public class FriendsMessageUtils {
     }
 
     private static TextComponent formatCommand(String command, String text, String hover){
-       TextComponent result = new TextComponent(friendHeader + "[" + secondaryColor);
-       result.addExtra(text);
-       result.addExtra(ChatColor.WHITE + "]");
-       result.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-       result.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hover)));
-       return result;
+        return getTextComponent(command, text, hover, friendHeader, secondaryColor);
     }
 
     public static void friendConnected(CommandSender sender, String friend){
@@ -47,7 +41,7 @@ public class FriendsMessageUtils {
     public static void friendRequestSent(CommandSender sender, Player friend){
         sender.sendMessage(friendHeader + "Demande d'ami envoyée à " + formatName(friend.getName()));
         friend.sendMessage(friendHeader + formatName(sender.getName()) + " veut devenir votre ami");
-        friend.spigot().sendMessage(formatCommand("/friends accept " + sender.getName(), "Cliquez ici pour accepter", "Accepter la demande d'ami de " + sender.getName()));
+        friend.spigot().sendMessage(formatCommand("/friends accept " + sender.getName(), ChatColor.GREEN + "Cliquez ici pour accepter", "Accepter la demande d'ami de " + sender.getName()));
     }
 
     public static void friendRequestNotExist(CommandSender sender, String target) {
