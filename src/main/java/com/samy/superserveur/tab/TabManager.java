@@ -1,6 +1,7 @@
 package com.samy.superserveur.tab;
 
 import com.samy.superserveur.rank.Rank;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -11,12 +12,19 @@ import java.util.List;
 public class TabManager {
 
     public static List<Team> teams;
+
     private final Scoreboard scoreboard;
     private final List<Rank> ranks;
 
     public TabManager(Scoreboard scoreboard, List<Rank> ranks) {
         this.scoreboard = scoreboard;
         this.ranks = ranks;
+    }
+
+    public void setHeaderAndFooter(Player player) {
+
+        player.setPlayerListHeader("" + ChatColor.YELLOW + ChatColor.BOLD + "le super serveur de samy");
+        player.setPlayerListFooter("" + ChatColor.GREEN + ChatColor.BOLD + "supersite.fr");
     }
 
     public Team createTeam(String teamName, Rank rank) {

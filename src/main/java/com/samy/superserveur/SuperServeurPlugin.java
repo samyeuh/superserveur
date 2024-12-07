@@ -12,10 +12,9 @@ import com.samy.superserveur.party.*;
 import com.samy.superserveur.rank.RankCommand;
 import com.samy.superserveur.rank.RankListener;
 import com.samy.superserveur.rank.RankManager;
+import com.samy.superserveur.tab.TabListener;
 import com.samy.superserveur.tab.TabManager;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -101,6 +100,7 @@ public class SuperServeurPlugin extends JavaPlugin {
     public void enableTab(){
         TabManager tabManager = new TabManager(scoreboard, rankManager.getRanks());
         tabManager.createRankTab();
+        getServer().getPluginManager().registerEvents(new TabListener(tabManager), this);
     }
 
     public Map<UUID, List<UUID>> getFriends(){
