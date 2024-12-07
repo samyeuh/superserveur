@@ -16,10 +16,11 @@ public class FriendsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
             return true;
         }
+        Player player = (Player) sender;
         FriendsSubCommand subCommand;
         if (args == null || args.length == 0) {
             subCommand = FriendsSubCommand.LIST;
@@ -41,6 +42,7 @@ public class FriendsCommand implements CommandExecutor {
                 if (newFriend != null && newFriend.isOnline() && !newFriend.equals(player) && !friendsManager.areFriends(player, newFriend)) {
                     friendsManager.sendRequest(player, newFriend);
                 } else {
+                    assert newFriend != null;
                     FriendsMessageUtils.friendErrorAdd(player, newFriend.getName());
                 }
                 break;

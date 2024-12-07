@@ -2,7 +2,6 @@ package com.samy.superserveur.party;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

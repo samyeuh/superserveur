@@ -14,9 +14,10 @@ public class MessageCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] strings) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             return true;
         }
+        Player player = (Player) sender;
 
         if (label.equals("m")) {
             if (strings.length < 1) {

@@ -14,10 +14,11 @@ public class PartyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
             return true;
         }
+        Player player = (Player) sender;
         PartySubCommand subCommand;
 
         if (args.length < 1 || args.length > 2 || !PartySubCommand.contains(args[0])) {

@@ -3,7 +3,6 @@ package com.samy.superserveur.message;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -21,7 +20,7 @@ public class MessageMessageUtils {
         String cmd = "/r ";
         TextComponent msg = new TextComponent(ChatColor.LIGHT_PURPLE + "[R]" + ChatColor.WHITE + ": ");
         msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, cmd));
-        msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Cliquez pour répondre à " + name)));
+        msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent("Cliquez pour répondre à " + name)}));
         return msg;
     }
 

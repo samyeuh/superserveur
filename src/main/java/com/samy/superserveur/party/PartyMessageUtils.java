@@ -3,7 +3,6 @@ package com.samy.superserveur.party;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,7 +29,7 @@ public class PartyMessageUtils {
         result.addExtra(text);
         result.addExtra(ChatColor.WHITE + "]");
         result.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-        result.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hover)));
+        result.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(hover)}));
         return result;
     }
 
@@ -50,7 +49,8 @@ public class PartyMessageUtils {
 
         String leaderTag = ChatColor.GRAY + " (Chef)" + ChatColor.RESET;
         String leaderName = members.get(0);
-        List<String> partyMembers = new ArrayList<>(List.of(leaderName));
+        List<String> partyMembers = new ArrayList<>();
+        partyMembers.add(leaderName);
 
         for (String m : members.subList(1, members.size())) {
             if (Bukkit.getPlayer(m) != null) {
