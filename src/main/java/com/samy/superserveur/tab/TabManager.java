@@ -1,12 +1,15 @@
 package com.samy.superserveur.tab;
 
 import com.samy.superserveur.rank.Rank;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import com.samy.api.TeamGame;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.server.v1_8_R3.ChatComponentText;
@@ -17,7 +20,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 public class TabManager {
 
     public static List<Team> teams;
-
+    private List<Team> teamsGame;
     private final Scoreboard scoreboard;
     private final List<Rank> ranks;
 
@@ -50,22 +53,7 @@ public class TabManager {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
-    public Team createTeam(String teamName, Rank rank) {
-        Team t = scoreboard.registerNewTeam(teamName);
-        t.setPrefix(rank.getColor() + "");
-        return t;
-    }
-
-    public static void assignPlayerToTeam(Team team, Player player) {
-        String pseudo = player.getName();
-        for (Team t : teams) {
-            if (t.hasEntry(pseudo)) {
-                t.removeEntry(pseudo);
-            }
-        }
-        team.addEntry(pseudo);
-        player.setScoreboard(team.getScoreboard());
-    }
+    // -- Rank tab
 
     public void createRankTab(){
         Team admin = createTeam("01_admin", ranks.get(0));
@@ -76,4 +64,41 @@ public class TabManager {
         teams = Arrays.asList(admin, mod, vipplus, vip, player);
     }
 
+    public Team createTeam(String teamName, Rank rank) {
+        Team t = scoreboard.registerNewTeam(teamName);
+        t.setPrefix(rank.getColor() + "");
+        return t;
+    }
+
+    public static void assignPlayerToTeamRank(Team team, Player player) {
+        String pseudo = player.getName();
+        for (Team t : teams) {
+            if (t.hasEntry(pseudo)) {
+                t.removeEntry(pseudo);
+            }
+        }
+        team.addEntry(pseudo);
+        player.setScoreboard(team.getScoreboard());
+    }
+
+    // -- Teams tab
+
+    public void setTeamsGame(List<TeamGame> list) {
+        teamsGame = Collections.emptyList();
+        for (TeamGame team : list) {
+            teamsGame.add(createTeamGame(team));
+        }
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.setScoreboard(scoreboard);
+        }
+    }
+
+    public Team createTeamGame(TeamGame team){
+        Team t = scoreboard.registerNewTeam(team.name);
+        t.setPrefix(team.color + "");
+        for (Player p : team.players) {
+            t.addEntry(p.getName());
+        }
+        return t;
+    }
 }

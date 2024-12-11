@@ -1,5 +1,7 @@
 package com.samy.superserveur;
 
+import com.samy.api.SuperAPI;
+import com.samy.api.TeamGame;
 import com.samy.superserveur.friends.FriendsCommand;
 import com.samy.superserveur.friends.FriendsListener;
 import com.samy.superserveur.friends.FriendsManager;
@@ -15,6 +17,7 @@ import com.samy.superserveur.rank.RankManager;
 import com.samy.superserveur.tab.TabListener;
 import com.samy.superserveur.tab.TabManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -22,11 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class SuperServeurPlugin extends JavaPlugin {
+public class SuperServeurPlugin extends JavaPlugin implements SuperAPI {
 
     private RankManager rankManager;
     private Scoreboard scoreboard;
-    private FriendsManager friendsManager;
+    public FriendsManager friendsManager;
+    public TabManager tabManager;
 
     @Override
     public void onEnable() {
@@ -37,7 +41,6 @@ public class SuperServeurPlugin extends JavaPlugin {
         enableParty();
         enableMessage();
         enableHelp();
-
         getLogger().info("Plugin core est activé !");
 
     }
@@ -98,12 +101,27 @@ public class SuperServeurPlugin extends JavaPlugin {
     }
 
     public void enableTab(){
-        TabManager tabManager = new TabManager(scoreboard, rankManager.getRanks());
-        tabManager.createRankTab();
+        tabManager = new TabManager(scoreboard, rankManager.getRanks());
         getServer().getPluginManager().registerEvents(new TabListener(tabManager), this);
     }
 
-    public Map<UUID, List<UUID>> getFriends(){
+    @Override
+    public Map<UUID, List<UUID>> getFriends() {
         return friendsManager.getFriends();
+    }
+
+    @Override
+    public void createRankTab() {
+        tabManager.createRankTab();
+    }
+
+    @Override
+    public void createTeams(List<TeamGame> list) {
+        tabManager.setTeamsGame(list);
+    }
+
+    @Override
+    public void joinTeam(Player player, TeamGame teamGame) {
+        //...
     }
 }

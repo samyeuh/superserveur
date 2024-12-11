@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.samy.superserveur.tab.TabManager.assignPlayerToTeam;
+import static com.samy.superserveur.tab.TabManager.assignPlayerToTeamRank;
 import static com.samy.superserveur.tab.TabManager.teams;
 
 public class RankManager {
@@ -83,19 +83,19 @@ public class RankManager {
             if (rank == null) rank = getJoueurRank();
             switch (rank.getName().toLowerCase()) {
                 case "admin":
-                    assignPlayerToTeam(teams.get(0), p);
+                    assignPlayerToTeamRank(teams.get(0), p);
                     break;
                 case "modo":
-                    assignPlayerToTeam(teams.get(1), p);
+                    assignPlayerToTeamRank(teams.get(1), p);
                     break;
                 case "vip+":
-                    assignPlayerToTeam(teams.get(2), p);
+                    assignPlayerToTeamRank(teams.get(2), p);
                     break;
                 case "vip":
-                    assignPlayerToTeam(teams.get(3), p);
+                    assignPlayerToTeamRank(teams.get(3), p);
                     break;
                 default:
-                    assignPlayerToTeam(teams.get(4), p);
+                    assignPlayerToTeamRank(teams.get(4), p);
                     break;
             }
         }
