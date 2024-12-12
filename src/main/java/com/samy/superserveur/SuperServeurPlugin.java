@@ -14,12 +14,10 @@ import com.samy.superserveur.party.*;
 import com.samy.superserveur.rank.RankCommand;
 import com.samy.superserveur.rank.RankListener;
 import com.samy.superserveur.rank.RankManager;
-import com.samy.superserveur.tab.TabListener;
-import com.samy.superserveur.tab.TabManager;
-import org.bukkit.Bukkit;
+import com.samy.superserveur.scoreboard.ScoreboardListener;
+import com.samy.superserveur.scoreboard.ScoreboardManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.List;
 import java.util.Map;
@@ -28,19 +26,18 @@ import java.util.UUID;
 public class SuperServeurPlugin extends JavaPlugin implements SuperAPI {
 
     private RankManager rankManager;
-    private Scoreboard scoreboard;
     public FriendsManager friendsManager;
-    public TabManager tabManager;
+    public ScoreboardManager scoreboardManager;
+
 
     @Override
     public void onEnable() {
-        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         enableRanks();
-        enableTab();
         enableFriends();
         enableParty();
         enableMessage();
         enableHelp();
+        enableScoreboard();
         getLogger().info("Plugin core est activé !");
 
     }
@@ -78,7 +75,7 @@ public class SuperServeurPlugin extends JavaPlugin implements SuperAPI {
         getServer().getPluginManager().registerEvents(new PartyListener(partyManager), this);
     }
 
-    public void enableMessage(){
+    public void enableMessage() {
         MessageManager messageManager = new MessageManager();
         MessageCommand messageCommand = new MessageCommand(messageManager);
         MessageTabCompleter messageTabCompleter = new MessageTabCompleter();
@@ -90,19 +87,24 @@ public class SuperServeurPlugin extends JavaPlugin implements SuperAPI {
         this.getCommand("r").setTabCompleter(messageTabCompleter);
     }
 
-    public void enableHelp(){
+    public void enableHelp() {
         this.getCommand("help").setExecutor(new HelpCommand());
     }
 
-    public void enableRanks(){
-        rankManager = new RankManager(scoreboard);
+    public void enableRanks() {
+        rankManager = new RankManager();
         this.getCommand("rank").setExecutor(new RankCommand(rankManager));
         getServer().getPluginManager().registerEvents(new RankListener(rankManager), this);
     }
 
-    public void enableTab(){
-        tabManager = new TabManager(scoreboard, rankManager.getRanks());
-        getServer().getPluginManager().registerEvents(new TabListener(tabManager), this);
+    public void enableScoreboard() {
+        scoreboardManager = new ScoreboardManager(rankManager);
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
+    }
+
+    public void updateScoreboard(){
+        scoreboardManager.updateTab();
+        scoreboardManager.updateSidebar();
     }
 
     @Override
@@ -112,16 +114,22 @@ public class SuperServeurPlugin extends JavaPlugin implements SuperAPI {
 
     @Override
     public void createRankTab() {
-        tabManager.createRankTab();
+        // ..
     }
 
     @Override
     public void createTeams(List<TeamGame> list) {
-        tabManager.setTeamsGame(list);
+        // ..
     }
 
     @Override
     public void joinTeam(Player player, TeamGame teamGame) {
-        //...
+        // ...
     }
+
+    @Override
+    public void setScoreboard(String s, List<String> list, Player player) {
+        scoreboardManager.setScoreboard(player, s, list);
+    }
+
 }
