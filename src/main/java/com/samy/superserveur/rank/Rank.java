@@ -1,8 +1,10 @@
 package com.samy.superserveur.rank;
 
+import com.samy.api.rank.IRank;
 import org.bukkit.ChatColor;
+import com.samy.api.rank.Permissions;
 
-public class Rank {
+public class Rank implements IRank {
 
     private final String name;
     private final Permissions permissions;

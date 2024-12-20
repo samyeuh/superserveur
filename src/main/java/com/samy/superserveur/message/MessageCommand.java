@@ -1,5 +1,7 @@
 package com.samy.superserveur.message;
 
+import com.samy.api.message.IMessageManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -7,10 +9,10 @@ import org.bukkit.entity.Player;
 
 public class MessageCommand implements CommandExecutor {
 
-    private final MessageManager messageManager;
+    private final IMessageManager messageManager;
 
-    public MessageCommand(MessageManager messageManager){
-        this.messageManager = messageManager;
+    public MessageCommand(SuperServeurPlugin plugin){
+        this.messageManager = plugin.getApi().getMessageManager();
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] strings) {

@@ -1,6 +1,9 @@
 package com.samy.superserveur.scoreboard;
 
-import com.samy.superserveur.rank.RankManager;
+import com.samy.api.scoreboard.IScoreboardManager;
+import com.samy.api.scoreboard.sidebar.ISidebarManager;
+import com.samy.api.scoreboard.tab.ITabManager;
+import com.samy.superserveur.SuperServeurAPI;
 import com.samy.superserveur.scoreboard.sidebar.SidebarManager;
 import com.samy.superserveur.scoreboard.tab.TabManager;
 import org.bukkit.Bukkit;
@@ -11,15 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ScoreboardManager {
+public class ScoreboardManager implements IScoreboardManager {
 
     private final Map<Player, Scoreboard> playerScoreboards = new HashMap<>();
-    private final SidebarManager sidebarManager;
-    private final TabManager tabManager;
+    private final ISidebarManager sidebarManager;
+    private final ITabManager tabManager;
 
-    public ScoreboardManager(RankManager rank){
+    public ScoreboardManager(){
         this.sidebarManager = new SidebarManager();
-        this.tabManager = new TabManager(rank);
+        this.tabManager = new TabManager(SuperServeurAPI.getInstance().getRankManager());
     }
 
     public void setScoreboard(Player player, String title, List<String> lines) {
@@ -29,9 +32,14 @@ public class ScoreboardManager {
         player.setScoreboard(scoreboard);
     }
 
+    public void updateScoreboard(){
+        this.updateTab();
+        this.updateSidebar();
+    }
+
     public void updateTab() {
         for (Map.Entry<Player, Scoreboard> entry : playerScoreboards.entrySet()) {
-            tabManager.updateTabForPlayer(entry.getValue());
+            tabManager.updateTabForPlayers(entry.getValue());
         }
     }
 
@@ -39,5 +47,15 @@ public class ScoreboardManager {
         for (Map.Entry<Player, Scoreboard> entry : playerScoreboards.entrySet()) {
             sidebarManager.updateSidebarForPlayer(entry.getKey(), entry.getValue());
         }
+    }
+
+    @Override
+    public ITabManager getTabManager() {
+        return tabManager;
+    }
+
+    @Override
+    public ISidebarManager getSidebarManager() {
+        return sidebarManager;
     }
 }

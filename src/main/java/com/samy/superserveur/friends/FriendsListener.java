@@ -1,5 +1,7 @@
 package com.samy.superserveur.friends;
 
+import com.samy.api.friends.IFriendsManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,10 +13,10 @@ import java.util.UUID;
 
 public class FriendsListener implements Listener {
 
-    private final FriendsManager friendsManager;
+    private final IFriendsManager friendsManager;
 
-    public FriendsListener(FriendsManager friendsManager){
-        this.friendsManager = friendsManager;
+    public FriendsListener(SuperServeurPlugin plugin){
+        this.friendsManager = plugin.getApi().getFriendsManager();
     }
 
     @EventHandler

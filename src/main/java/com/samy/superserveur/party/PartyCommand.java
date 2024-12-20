@@ -1,5 +1,7 @@
 package com.samy.superserveur.party;
 
+import com.samy.api.party.IPartyManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,9 +10,11 @@ import org.bukkit.entity.Player;
 
 public class PartyCommand implements CommandExecutor {
 
-    private final PartyManager partyManager;
+    private final IPartyManager partyManager;
 
-    public PartyCommand(PartyManager partyManager){ this.partyManager = partyManager; }
+    public PartyCommand(SuperServeurPlugin plugin){
+        this.partyManager = plugin.getApi().getPartyManager();
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -56,7 +60,7 @@ public class PartyCommand implements CommandExecutor {
                     break;
                 }
                 Player senderToAccept = Bukkit.getPlayer(args[1]);
-                partyManager.acceptRequestFromPlayer(player, senderToAccept);
+                partyManager.accestRequestFromPlayer(player, senderToAccept); // todo: corriger faute mdr
                 break;
             case QUIT:
             case LEAVE:

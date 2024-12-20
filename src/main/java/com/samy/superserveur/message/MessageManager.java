@@ -1,11 +1,12 @@
 package com.samy.superserveur.message;
 
+import com.samy.api.message.IMessageManager;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MessageManager {
+public class MessageManager implements IMessageManager {
 
     Map<String, String> messagesReceived = new HashMap<>();
 

@@ -1,5 +1,7 @@
 package com.samy.superserveur.friends;
 
+import com.samy.api.friends.IFriendsManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,10 +10,10 @@ import org.bukkit.entity.Player;
 
 public class FriendsCommand implements CommandExecutor {
 
-    public final FriendsManager friendsManager;
+    public final IFriendsManager friendsManager;
 
-    public FriendsCommand(FriendsManager friendsManager) {
-        this.friendsManager = friendsManager;
+    public FriendsCommand(SuperServeurPlugin plugin) {
+        this.friendsManager = plugin.getApi().getFriendsManager();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class FriendsCommand implements CommandExecutor {
                     }
                     friendsManager.acceptRequest(player, requester);
                 } else {
-                    friendsManager.acceptMostRecentRequest(player);
+                    friendsManager.acceptMostRequest(player);
                 }
                 break;
 
@@ -78,6 +80,7 @@ public class FriendsCommand implements CommandExecutor {
                 break;
 
             case HELP:
+                // TODO: Friend MessageUtils
                 player.sendMessage("Commandes:");
                 player.sendMessage("/friends add <joueur> - Ajouter un ami");
                 player.sendMessage("/friends accept [joueur] - Accepter une demande d'ami");

@@ -1,12 +1,13 @@
 package com.samy.superserveur.party;
 
+import com.samy.api.party.IParty;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Party {
+public class Party implements IParty {
 
     private final UUID leaderId;
     private final List<UUID> members;

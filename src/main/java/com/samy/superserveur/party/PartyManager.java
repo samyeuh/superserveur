@@ -1,15 +1,14 @@
 package com.samy.superserveur.party;
 
+import com.samy.api.party.IParty;
+import com.samy.api.party.IPartyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-public class PartyManager {
+public class PartyManager implements IPartyManager {
 
     private final List<Party> partyList;
     private final HashMap<UUID, List<Party>> partyRequests = new HashMap<>();
@@ -18,14 +17,14 @@ public class PartyManager {
         this.partyList = new ArrayList<>();
     }
 
-    public boolean isInParty(Player player){
+    /*public boolean isInParty(Player player){
         for(Party party : partyList){
             if(party.isMember(player)){
                 return true;
             }
         }
         return false;
-    }
+    }*/
 
     public Party getPartyIfLeader(Player leader){
         for(Party party : partyList){
@@ -63,6 +62,11 @@ public class PartyManager {
         }
     }
 
+    @Override
+    public IParty getPartyIfLeader() {
+        return null;
+    }
+
     public Party getParty(Player player){
         for(Party party : partyList){
             if(party.isMember(player)){
@@ -70,6 +74,11 @@ public class PartyManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<String> getPartyRequestsLeader(Player player) {
+        return this.getPartyRequestLeader(player);
     }
 
     public boolean isMemberOfAParty(Player player){
@@ -89,6 +98,16 @@ public class PartyManager {
             partyList.add(newParty);
             requestPlayerToParty(player, target);
         }
+    }
+
+    @Override
+    public void requestPartyToPlayer(Player player, Player player1) {
+        this.requestPlayerToParty(player, player1);
+    }
+
+    @Override
+    public void accestRequestFromPlayer(Player player, Player player1) {
+        this.acceptMostRecentRequest(player);
     }
 
     public void requestPlayerToParty(Player player, Player target){

@@ -1,6 +1,8 @@
 package com.samy.superserveur.party;
 
-import com.samy.superserveur.friends.FriendsMessageUtils;
+import com.samy.api.party.IParty;
+import com.samy.api.party.IPartyManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,16 +18,16 @@ public class PartyListener implements Listener {
 
     // TODO: when player join or left game and is in a party, signal other player
 
-    public PartyManager partyManager;
+    public IPartyManager partyManager;
 
-    public PartyListener(PartyManager partyManager){
-        this.partyManager = partyManager;
+    public PartyListener(SuperServeurPlugin plugin){
+        this.partyManager = plugin.getApi().getPartyManager();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        Party party = partyManager.getParty(player);
+        IParty party = partyManager.getParty(player);
         if (party != null) {
             List<UUID> members = new ArrayList<>(party.getMembers());
             members.remove(player.getUniqueId());
@@ -39,7 +41,7 @@ public class PartyListener implements Listener {
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        Party party = partyManager.getParty(player);
+        IParty party = partyManager.getParty(player);
         if (party != null) {
             List<UUID> members = new ArrayList<>(party.getMembers());
             members.remove(player.getUniqueId());

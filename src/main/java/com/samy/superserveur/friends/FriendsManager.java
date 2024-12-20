@@ -1,11 +1,12 @@
 package com.samy.superserveur.friends;
 
+import com.samy.api.friends.IFriendsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class FriendsManager {
+public class FriendsManager implements IFriendsManager {
     private final HashMap<UUID, List<UUID>> friends = new HashMap<>();
     private final HashMap<UUID, List<UUID>> requests = new HashMap<>();
 
@@ -25,6 +26,11 @@ public class FriendsManager {
         }
     }
 
+    @Override
+    public void acceptMostRequest(Player player) {
+        this.acceptMostRecentRequest(player); // TODO a corriger aussi
+    }
+
     public void acceptMostRecentRequest(Player player) {
         List<UUID> requests = this.requests.getOrDefault(player.getUniqueId(), new ArrayList<>());
         if (requests.isEmpty()) {
@@ -36,7 +42,7 @@ public class FriendsManager {
         }
     }
 
-    private void addFriend(Player player, Player friend) {
+    public void addFriend(Player player, Player friend) {
         friends.computeIfAbsent(player.getUniqueId(), k -> new ArrayList<>()).add(friend.getUniqueId());
         friends.computeIfAbsent(friend.getUniqueId(), k -> new ArrayList<>()).add(player.getUniqueId());
         // send message
@@ -102,7 +108,12 @@ public class FriendsManager {
         return names;
     }
 
-    public Map<UUID, List<UUID>> getFriends(){
+    @Override
+    public Map<UUID, List<UUID>> getFriendsMap() {
         return friends;
     }
+
+    /*public Map<UUID, List<UUID>> getFriends(){
+        return friends;
+    }*/
 }

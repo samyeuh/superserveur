@@ -1,36 +1,33 @@
 package com.samy.superserveur.rank;
 
+import com.samy.api.rank.IRank;
+import com.samy.api.rank.IRankManager;
+import com.samy.superserveur.SuperServeurPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import com.samy.api.rank.Permissions;
 
 public class RankCommand implements CommandExecutor {
 
-    private RankManager rankManager;
+    private final IRankManager rankManager;
 
-    public RankCommand(RankManager rankManager){
-        this.rankManager = rankManager;
+    public RankCommand(SuperServeurPlugin plugin){
+        this.rankManager = plugin.getApi().getRankManager();
     }
 
     public boolean checkPermission(CommandSender sender){
         if (sender instanceof Player){
             Player p = (Player) sender;
-            Rank rank = rankManager.getRank(p);
+            IRank rank = rankManager.getRank(p);
             if (rank == null){
                 return false;
             }
-            if (rank.hasPermissions(Permissions.ADMIN)){
-                return true;
-            } else {
-                return false;
-            }
-        } else if (sender instanceof ConsoleCommandSender){
-            return true;
-        }
-        return false;
+            return rank.hasPermissions(Permissions.ADMIN);
+        } else return sender instanceof ConsoleCommandSender;
     }
 
     @Override
@@ -57,7 +54,7 @@ public class RankCommand implements CommandExecutor {
                     commandSender.sendMessage("Player not found");
                     return false;
                 }
-                Rank rank = rankManager.findRank(strings[2]);
+                IRank rank = rankManager.findRank(strings[2]);
                 if (rank == null){
                     commandSender.sendMessage("Rank not found");
                     return false;
@@ -83,7 +80,7 @@ public class RankCommand implements CommandExecutor {
                     commandSender.sendMessage("Player not found or not connected");
                     return false;
                 }
-                Rank rankInfo = rankManager.getRank(playerInfo);
+                IRank rankInfo = rankManager.getRank(playerInfo);
                 commandSender.sendMessage("Rank of " + playerInfo.getName() + ": " + rankInfo.getName());
                 break;
         }

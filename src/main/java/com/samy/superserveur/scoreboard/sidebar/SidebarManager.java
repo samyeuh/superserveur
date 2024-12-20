@@ -1,5 +1,6 @@
 package com.samy.superserveur.scoreboard.sidebar;
 
+import com.samy.api.scoreboard.sidebar.ISidebarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SidebarManager {
+public class SidebarManager implements ISidebarManager {
 
     private final Map<Player, List<String>> playerSidebar = new HashMap<>();
 

@@ -1,16 +1,19 @@
 package com.samy.superserveur.rank;
 
+import com.samy.api.rank.IRank;
+import com.samy.api.rank.IRankManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import com.samy.api.rank.Permissions;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class RankManager {
+public class RankManager implements IRankManager {
 
-    private final HashMap<String, Rank> playersRank = new HashMap<>();
-    private final List<Rank> rankList;
+    private final HashMap<String, IRank> playersRank = new HashMap<>();
+    private final List<IRank> rankList;
 
     public RankManager() {
         Rank joueur = new Rank("Joueur", Permissions.PLAYER, ChatColor.GRAY, "05_player");
@@ -21,8 +24,13 @@ public class RankManager {
         this.rankList = Arrays.asList(admin, modo, vipplus, vip, joueur);
     }
 
-    public List<Rank> getRanks(){
+    public List<IRank> getRanks(){
         return rankList;
+    }
+
+    @Override
+    public void setRank(Player player, IRank iRank) {
+        setRank(player, (Rank) iRank);
     }
 
     public void setRank(Player player, Rank rank) {
@@ -32,12 +40,12 @@ public class RankManager {
         player.setPlayerListName(name);
     }
 
-    public Rank getRank(Player player) {
+    public IRank getRank(Player player) {
         return playersRank.getOrDefault(player.getName(), getJoueurRank());
     }
 
-    public Rank findRank(String rankName){
-        for (Rank rank : rankList){
+    public IRank findRank(String rankName){
+        for (IRank rank : rankList){
             if (rank.getName().equalsIgnoreCase(rankName)){
                 return rank;
             }
@@ -49,7 +57,7 @@ public class RankManager {
         playersRank.put(player.getName(), getJoueurRank());
     }
 
-    public Rank getJoueurRank() {
+    public IRank getJoueurRank() {
         return rankList.get(rankList.size() - 1); // Le dernier est "Joueur"
     }
 
