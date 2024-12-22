@@ -53,15 +53,15 @@ public class TabManager implements ITabManager {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
-        // -- Rank tab
-        public Scoreboard createTabManager(Scoreboard scoreboard, Player player){
-            this.scoreboard = scoreboard;
-            this.teamsRank = createTeams(scoreboard, player);
-            assignPlayerToTeamRank(player);
-            setHeaderAndFooter(player);
-            updateTabForPlayers(scoreboard);
-            return scoreboard;
-        }
+    // -- Rank tab
+    public Scoreboard createTabManager(Scoreboard scoreboard, Player player){
+        this.scoreboard = scoreboard;
+        this.teamsRank = createTeams(scoreboard, player);
+        assignPlayerToTeamRank(player);
+        setHeaderAndFooter(player);
+        updateTabForPlayers(scoreboard);
+        return scoreboard;
+    }
 
     @Override
     public List<Team> createTeams(Scoreboard scoreboard, Player player) {
