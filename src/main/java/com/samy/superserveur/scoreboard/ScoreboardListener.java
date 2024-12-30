@@ -25,6 +25,7 @@ public class ScoreboardListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
+        api.getScoreboardManager().removePlayer(event.getPlayer());
         Bukkit.getScheduler().runTaskLater(plugin, plugin.getApi().getScoreboardManager()::updateScoreboard, 1L);
     }
 }

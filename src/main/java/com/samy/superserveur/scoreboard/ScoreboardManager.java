@@ -49,6 +49,10 @@ public class ScoreboardManager implements IScoreboardManager {
         }
     }
 
+    public void removePlayer(Player player){
+        sidebarManager.resetScoreboard(playerScoreboards.get(player));
+    }
+
     @Override
     public ITabManager getTabManager() {
         return tabManager;
