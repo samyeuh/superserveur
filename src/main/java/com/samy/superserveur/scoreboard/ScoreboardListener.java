@@ -2,7 +2,6 @@ package com.samy.superserveur.scoreboard;
 
 import com.samy.superserveur.SuperServeurAPI;
 import com.samy.superserveur.SuperServeurPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,12 +19,13 @@ public class ScoreboardListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
-        api.getScoreboardManager().updateScoreboard();
+        // api.getScoreboardManager().updateScoreboard();
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
-        api.getScoreboardManager().removePlayer(event.getPlayer());
+        /* api.getScoreboardManager().removePlayer(event.getPlayer());
         Bukkit.getScheduler().runTaskLater(plugin, plugin.getApi().getScoreboardManager()::updateScoreboard, 1L);
+    */
     }
 }

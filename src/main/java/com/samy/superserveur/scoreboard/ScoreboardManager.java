@@ -8,10 +8,10 @@ import com.samy.superserveur.scoreboard.sidebar.SidebarManager;
 import com.samy.superserveur.scoreboard.tab.TabManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ScoreboardManager implements IScoreboardManager {
@@ -25,32 +25,21 @@ public class ScoreboardManager implements IScoreboardManager {
         this.tabManager = new TabManager(SuperServeurAPI.getInstance().getRankManager());
     }
 
-    public void setScoreboard(Player player, String title, List<String> lines) {
+    public void setScoreboard(Player player, Objective objective, Map<Player, String> teams) {
         Scoreboard scoreboard = playerScoreboards.computeIfAbsent(player, k -> Bukkit.getScoreboardManager().getNewScoreboard());
-        scoreboard = sidebarManager.createSidebar(scoreboard, title, lines, player);
+        scoreboard = sidebarManager.setSidebar(scoreboard, player, objective);
         scoreboard = tabManager.createTabManager(scoreboard, player);
         player.setScoreboard(scoreboard);
     }
 
     public void updateScoreboard(){
         this.updateTab();
-        this.updateSidebar();
     }
 
     public void updateTab() {
         for (Map.Entry<Player, Scoreboard> entry : playerScoreboards.entrySet()) {
             tabManager.updateTabForPlayers(entry.getValue());
         }
-    }
-
-    public void updateSidebar(){
-        for (Map.Entry<Player, Scoreboard> entry : playerScoreboards.entrySet()) {
-            sidebarManager.updateSidebarForPlayer(entry.getKey(), entry.getValue());
-        }
-    }
-
-    public void removePlayer(Player player){
-        sidebarManager.resetScoreboard(playerScoreboards.get(player));
     }
 
     @Override
