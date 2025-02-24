@@ -1,11 +1,14 @@
 package com.samy.superserveur.rank;
 
+import com.samy.api.SuperAPI;
 import com.samy.api.rank.IRank;
 import com.samy.api.rank.IRankManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import com.samy.api.rank.Permissions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +41,9 @@ public class RankManager implements IRankManager {
         String name = rank.getColorName() + " " + player.getName();
         player.setDisplayName(name);
         player.setPlayerListName(name);
+        // TODO: RankMessageUtils
+        SuperAPI.getInstance().getScoreboardManager().updateTab(new ArrayList<>(Bukkit.getOnlinePlayers()));
+
     }
 
     public IRank getRank(Player player) {

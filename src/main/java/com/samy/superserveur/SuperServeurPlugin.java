@@ -7,7 +7,6 @@ import com.samy.superserveur.message.MessageCommand;
 import com.samy.superserveur.party.*;
 import com.samy.superserveur.rank.RankCommand;
 import com.samy.superserveur.rank.RankListener;
-import com.samy.superserveur.scoreboard.ScoreboardListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SuperServeurPlugin extends JavaPlugin {
@@ -23,8 +22,6 @@ public class SuperServeurPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RankListener(this), this);
         getServer().getPluginManager().registerEvents(new FriendsListener(this), this);
         getServer().getPluginManager().registerEvents(new PartyListener(this), this);
-        getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
-
 
        // Commands
         this.getCommand("rank").setExecutor(new RankCommand(this));
